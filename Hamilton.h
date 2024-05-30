@@ -8,8 +8,8 @@ private:
     std::vector<std::vector<int>> list;
     int nodesAmount;
 
-    bool canAddToPath(int nextNode, vector<int> &path, int currentPathIndex);
-    bool searchHamiltonianCycle(vector<int> &path, int currentPathIndex);
+    bool canAddToPath(int nextNode, std::vector<int> &path, int currentPathIndex);
+    bool searchHamiltonianCycle(std::vector<int> &path, int currentPathIndex);
 public:
     explicit Hamilton(Graph* graph);
 

@@ -14,6 +14,7 @@ void Hamilton::runHamiltonianCycleSearch(){
     path[0] = 0;
     if (!searchHamiltonianCycle(path, 1)) {
         cout << "No Hamiltonian cycle found" << endl;
+        return;
     }
 
     cout << "Hamiltonian cycle: ";

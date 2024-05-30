@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "InvalidDataException.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -14,11 +15,12 @@ const std::string Graph::argumentNonHamilton = "--non-hamilton";
 Graph::Graph(const string &argument) {
     cout << "nodes>";
     cin >> nodesAmount;
+    if(nodesAmount<1){
+        throw InvalidDataException("nodes amount cannot be less than 1");
+    }
     cin.ignore();
 
     consequentsList = vector<vector<int>>(nodesAmount);
-    matrix = vector<vector<int>>(nodesAmount, vector<int>(nodesAmount, 0));
-    table = vector<pair<int, int>>();
 
     int saturation = 0;
 
@@ -29,10 +31,11 @@ Graph::Graph(const string &argument) {
     } else if (argument == argumentHamilton) {
         cout << "saturation>";
         cin >> saturation;
+        if(saturation != 30 && saturation != 70){
+            throw InvalidDataException("saturation must be in range <0, 100>");
+        }
         createGraphHamilton(saturation);
     }
-    createMatrixFromList();
-    createTableFromList();
 
 }
 
@@ -78,32 +81,6 @@ void Graph::createGraphNonHamilton(int vertex) {
     }
 }
 
-void Graph::createTableFromList() {
-    for (int u = 0; u < consequentsList.size(); ++u) {
-        for (int v: consequentsList[u]) {
-            if (u < v) {
-                table.push_back({u, v});
-            }
-        }
-    }
-}
-
-void Graph::createMatrixFromList() {
-    for (int u = 0; u < consequentsList.size(); ++u) {
-        for (int v: consequentsList[u]) {
-            matrix[u][v] = 1;
-        }
-    }
-}
-
 std::vector<std::vector<int>> *Graph::getList() {
     return &consequentsList;
-}
-
-std::vector<std::vector<int>> *Graph::getMatrix() {
-    return &matrix;
-}
-
-std::vector<std::pair<int, int>> *Graph::getTable() {
-    return &table;
 }

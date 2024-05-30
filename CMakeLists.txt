@@ -15,4 +15,7 @@ add_executable(Hamilton_and_Euler_project main.cpp
         Euler.h
         Euler.cpp
         Hamilton.h
-        Hamilton.cpp)
+        Hamilton.cpp
+        InvalidDataException.h
+        InvalidDataException.h
+        InvalidDataException.cpp)

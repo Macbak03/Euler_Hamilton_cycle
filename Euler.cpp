@@ -25,6 +25,7 @@ Euler::Euler(std::vector<std::vector<int>> consequentsList): consequentsList(std
                                                 {4, 8},
                                                 {4, 5},
                                                 {4, 6}};*/
+    //this->consequentsList = vector<vector<int>> {{2,4}, {1,3}, {2,4}, {1,3}, {}};
 }
 
 void Euler::DFS(std::vector<bool> &visited, int node) {
@@ -41,21 +42,21 @@ bool Euler::areAllNodesConnected() {
     vector<bool> visited(graphSize, false);
 
     // Find a node with non-zero degree
-    int startingEdge = -1;
+    int startingNode = -1;
     for (int i = 0; i < graphSize; ++i) {
         if (!consequentsList[i].empty()) {
-            startingEdge = i;
+            startingNode = i;
             break;
         }
     }
 
     // If there are no edges in the graph, it is trivially connected
-    if (startingEdge == -1) {
+    if (startingNode == -1) {
         return true;
     }
 
     // Start DFS from a node with non-zero degree
-    DFS(visited, startingEdge);
+    DFS(visited, startingNode);
 
     // Check if all node with non-zero degree are visited
     for (int i = 0; i < graphSize; ++i) {
@@ -126,8 +127,8 @@ void Euler::printCycle(const std::vector<int>& cycle) {
         for(int node: cycle){
             cout<<node<<" ";
         }
-        cout<<endl;
     } else {
         cout<<"No Eulerian cycle found";
     }
+    cout<<endl;
 }
