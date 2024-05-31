@@ -45,39 +45,44 @@ void Graph::createGraphHamilton(int saturation) {
 
     srand(time(nullptr));
 
+    // Create a Hamiltonian path by connecting each node to the next one
     for (int i = 1; i < nodesAmount; ++i) {
-        int u = rand() % i;
-        addEdgeList(u, i);
+        addEdgeList(i, i + 1);
     }
+    // Close the cycle by connecting the last node to the first node
+    addEdgeList(nodesAmount, 1);
 
-    while (numberOfEdges > nodesAmount - 1) {
-        int u = rand() % nodesAmount;
-        int v = rand() % nodesAmount;
-        if (u != v) {
+    numberOfEdges -= nodesAmount;  // We already added nodesAmount edges
+
+    // Add random edges until we reach the desired saturation
+    while (numberOfEdges > 0) {
+        int node = rand() % nodesAmount + 1;
+        int consequent = rand() % nodesAmount + 1;
+        if (node != consequent) {
             bool exist = false;
-            for (int neighbor: consequentsList[u]) {
-                if (neighbor == v) {
+            for (int neighbor : consequentsList[node - 1]) {
+                if (neighbor == consequent) {
                     exist = true;
                     break;
                 }
             }
             if (!exist) {
-                addEdgeList(u, v);
+                addEdgeList(node, consequent);
                 numberOfEdges--;
             }
         }
     }
 }
 
-void Graph::addEdgeList(int u, int v) {
-    consequentsList[u].push_back(v);
-    consequentsList[v].push_back(u);
+void Graph::addEdgeList(int node, int neighbor) {
+    consequentsList[node - 1].push_back(neighbor);    // Adjust for 0-based indexing
+    consequentsList[neighbor - 1].push_back(node);    // Adjust for 0-based indexing
 }
 
 void Graph::createGraphNonHamilton(int vertex) {
     consequentsList[vertex].clear();
     for (auto &neighbors: consequentsList) {
-        neighbors.erase(remove(neighbors.begin(), neighbors.end(), vertex), neighbors.end());
+        neighbors.erase(remove(neighbors.begin(), neighbors.end(), vertex+1), neighbors.end());
     }
 }
 

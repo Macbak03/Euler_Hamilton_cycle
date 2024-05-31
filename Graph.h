@@ -7,7 +7,7 @@ private:
     int nodesAmount{};
     std::vector<std::vector<int>> consequentsList;
 
-    void addEdgeList(int u, int i);
+    void addEdgeList(int node, int neighbor);
     void createGraphHamilton(int saturation);
     void createGraphNonHamilton(int vertex);
 

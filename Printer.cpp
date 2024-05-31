@@ -10,7 +10,7 @@ void Printer::print() {
     for (int i = 0; i < list.size(); i++) {
         cout << i + 1 << " - ";
         for (int j: list[i]) {
-            cout << j + 1 << " ";
+            cout << j << " ";
         }
         cout << endl;
     }

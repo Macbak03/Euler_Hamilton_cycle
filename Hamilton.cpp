@@ -1,38 +1,33 @@
 #include "Hamilton.h"
 #include <iostream>
 #include <algorithm>
+#include <utility>
 
 using namespace std;
 
-Hamilton::Hamilton(Graph *graph) : graph(graph){
-    list = *graph->getList();
-    nodesAmount = list.size();
+Hamilton::Hamilton(vector<vector<int>> consequentsList) : consequentsList(std::move(consequentsList)){
+    nodesAmount = this->consequentsList.size();
 }
 
-void Hamilton::runHamiltonianCycleSearch(){
-    vector<int> path(nodesAmount, -1);
-    path[0] = 0;
-    if (!searchHamiltonianCycle(path, 1)) {
-        cout << "No Hamiltonian cycle found" << endl;
-        return;
+bool Hamilton::canAddToPath(int nextNode, const vector<int>& path, int currentPathIndex) {
+    if (find(path.begin(), path.begin() + currentPathIndex, nextNode) != path.begin() + currentPathIndex) {
+        return false;
     }
-
-    cout << "Hamiltonian cycle: ";
-    for (int i = 0; i < nodesAmount; ++i) {
-        cout << path[i] + 1 << " ";
+    if (find(consequentsList[path[currentPathIndex - 1] - 1].begin(), consequentsList[path[currentPathIndex - 1] - 1].end(), nextNode) == consequentsList[path[currentPathIndex - 1] - 1].end()) {
+        return false;
     }
-    cout << path[0] + 1 << endl;
+    return true;
 }
 
-bool Hamilton::searchHamiltonianCycle(vector<int> &path, int currentPathIndex){
+bool Hamilton::searchHamiltonianCycle(vector<int>& path, int currentPathIndex) {
     if (currentPathIndex == nodesAmount) {
-        if (find(list[path[currentPathIndex - 1]].begin(), list[path[currentPathIndex - 1]].end(), path[0]) != list[path[currentPathIndex - 1]].end()) {
+        if (find(consequentsList[path[currentPathIndex - 1] - 1].begin(), consequentsList[path[currentPathIndex - 1] - 1].end(), path[0]) != consequentsList[path[currentPathIndex - 1] - 1].end()) {
             return true;
         }
         return false;
     }
 
-    for (int nextNode = 1; nextNode < nodesAmount; ++nextNode) {
+    for (int nextNode = 1; nextNode <= nodesAmount; ++nextNode) {
         if (canAddToPath(nextNode, path, currentPathIndex)) {
             path[currentPathIndex] = nextNode;
             if (searchHamiltonianCycle(path, currentPathIndex + 1)) {
@@ -44,12 +39,17 @@ bool Hamilton::searchHamiltonianCycle(vector<int> &path, int currentPathIndex){
     return false;
 }
 
-bool Hamilton::canAddToPath(int nextNode, vector<int> &path, int currentPathIndex){
-    if (find(list[path[currentPathIndex - 1]].begin(), list[path[currentPathIndex - 1]].end(), nextNode) == list[path[currentPathIndex - 1]].end()) {
-        return false;
+void Hamilton::hasHamiltonianCycle() {
+    vector<int> path(nodesAmount, -1);
+    path[0] = 1;
+    if (!searchHamiltonianCycle(path, 1)) {
+        cout << "No Hamiltonian cycle found" << endl;
+        return;
     }
-    if (find(path.begin(), path.begin() + currentPathIndex, nextNode) != path.begin() + currentPathIndex) {
-        return false;
+
+    cout << "Hamiltonian cycle: ";
+    for (int i = 0; i < nodesAmount; ++i) {
+        cout << path[i] << " ";
     }
-    return true;
+    cout << path[0] << endl;
 }

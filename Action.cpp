@@ -42,8 +42,8 @@ int Action::handleAction() {
                 break;
             }
             case 4: { //Hamilton
-                auto* hamilton = new Hamilton(graph);
-                hamilton->runHamiltonianCycleSearch();
+                auto* hamilton = new Hamilton(*graph->getList());
+                hamilton->hasHamiltonianCycle();
                 delete hamilton;
                 break;
             }
@@ -58,7 +58,7 @@ int Action::handleAction() {
                 break;
             }
             default: {
-                cout << "Invalid action. Type Help for action list.\n";
+                cout << "Invalid action. Type Help for action consequentsList.\n";
                 break;
             }
         }

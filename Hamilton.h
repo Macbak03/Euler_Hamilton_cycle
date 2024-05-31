@@ -5,13 +5,13 @@
 class Hamilton {
 private:
     Graph* graph;
-    std::vector<std::vector<int>> list;
+    std::vector<std::vector<int>> consequentsList;
     int nodesAmount;
 
-    bool canAddToPath(int nextNode, std::vector<int> &path, int currentPathIndex);
+    bool canAddToPath(int nextNode, const std::vector<int>& path, int currentPathIndex);
     bool searchHamiltonianCycle(std::vector<int> &path, int currentPathIndex);
 public:
-    explicit Hamilton(Graph* graph);
+    explicit Hamilton(std::vector<std::vector<int>> consequentsList);
 
-    void runHamiltonianCycleSearch();
+    void hasHamiltonianCycle();
 };
