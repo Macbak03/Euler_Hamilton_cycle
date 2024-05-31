@@ -30,9 +30,8 @@ int Action::handleAction() {
                 break;
             }
             case 2: { //Print
-                auto *printer = new Printer(graph);
-                printer->print();
-                delete printer;
+                auto printer = Printer(graph);
+                printer.print();
                 break;
             }
             case 3: { //Euler

@@ -1,12 +1,14 @@
 #pragma once
 #include <vector>
+#include "Graph.h"
 
 
 class Euler {
 private:
+    Graph* graph;
     std::vector<std::vector<int>> consequentsList;
 
-    void DFS(std::vector<bool>& visited, int node);
+    void DFS(std::vector<bool>& visited, int nodeIndex);
     bool areAllNodesConnected();
     bool hasEulerianCycle();
 public:

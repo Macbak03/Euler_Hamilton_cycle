@@ -6,8 +6,8 @@
 
 using namespace std;
 
-Euler::Euler(std::vector<std::vector<int>> consequentsList): consequentsList(std::move(consequentsList)) {
-    /* this->consequentsList = vector<vector<int>>{{2, 10},
+Euler::Euler(vector<vector<int>> consequentsList): consequentsList(std::move(consequentsList)) {
+/*     this->consequentsList = vector<vector<int>>{{2, 10},
                                                  {1, 3},
                                                  {2, 4, 5, 10},
                                                  {3, 5, 6, 8},
@@ -28,11 +28,12 @@ Euler::Euler(std::vector<std::vector<int>> consequentsList): consequentsList(std
     //this->consequentsList = vector<vector<int>> {{2,4}, {1,3}, {2,4}, {1,3}, {}};
 }
 
-void Euler::DFS(std::vector<bool> &visited, int node) {
-    visited[node] = true;
-    for (int consequent: consequentsList[node]) {
-        if (!visited[consequent]) {
-            DFS(visited, consequent);
+void Euler::DFS(std::vector<bool> &visited, int nodeIndex) {
+    visited[nodeIndex] = true;
+    for (int consequent: consequentsList[nodeIndex]) {
+        int consequentIndex = consequent -1;
+        if (!visited[consequentIndex]) {
+            DFS(visited, consequentIndex);
         }
     }
 }
@@ -73,7 +74,7 @@ bool Euler::hasEulerianCycle() {
         return false;
     }
 
-    for (const auto &edges: consequentsList) {
+    for (auto &edges: consequentsList) {
         if (edges.size() % 2 != 0) {
             return false;
         }
