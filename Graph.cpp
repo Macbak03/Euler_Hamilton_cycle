@@ -32,7 +32,7 @@ Graph::Graph(const string &argument) {
         cout << "saturation>";
         cin >> saturation;
         if(saturation != 30 && saturation != 70){
-            throw InvalidDataException("saturation must be in range <0, 100>");
+            throw InvalidDataException("saturation must be 30 or 70");
         }
         createGraphHamilton(saturation);
     }
